@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Without Transpilation - Pure HTML</title>
+    <link rel="stylesheet" href="../../common/styles/main.css">
+    
+    <!-- Import Map for TypeScript - this is the key to using TS without transpilation -->
+    <script type="importmap">
+    {
+      "imports": {
+        "typescript": "https://esm.sh/typescript@5.1.6",
+        "app/": "/examples/ts-modules/"
+      }
+    }
+    </script>
+    
+    <!-- We use the .js extension but the file content is TypeScript -->
+    <script type="module" src="./main.js"></script>
+</head>
+<body>
+    <header>
+        <h1>TypeScript Without Transpilation</h1>
+        <p><a href="../../index.html">← Back to Home</a></p>
+    </header>
+    
+    <main>
+        <section class="intro">
+            <h2>About This Example</h2>
+            <p>
+                This example demonstrates how to use TypeScript directly in the browser without
+                using a bundler or transpiler. We're using import maps and the browser's native
+                ES module support.
+            </p>
+            <p>
+                Open your browser's developer console to see the TypeScript code in action.
+            </p>
+        </section>
+        
+        <section>
+            <h2>Todo List Demo</h2>
+            <p>A simple todo list built with TypeScript and DOM manipulation:</p>
+            
+            <div class="todo-container">
+                <form id="todo-form">
+                    <input type="text" id="todo-input" placeholder="Add a new task..." required>
+                    <button type="submit" class="button">Add Task</button>
+                </form>
+                
+                <div class="todo-filters">
+                    <button id="filter-all" class="button">All</button>
+                    <button id="filter-active" class="button">Active</button>
+                    <button id="filter-completed" class="button">Completed</button>
+                </div>
+                
+                <ul id="todo-list"></ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>How It Works</h2>
+            <p>
+                We're using an import map to tell the browser where to find TypeScript modules.
+                Then we load TypeScript files with a .js extension, which the browser can execute directly.
+            </p>
+            
+            <h3>Key Files:</h3>
+            <ul>
+                <li><code>main.js</code> - The entry point with TypeScript syntax</li>
+                <li><code>todo.js</code> - The Todo class with TypeScript interfaces</li>
+                <li><code>store.js</code> - Storage utilities with TypeScript generics</li>
+            </ul>
+            
+            <h3>Code Example:</h3>
+            <pre><code>// TypeScript interfaces
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
+// Type-safe functions
+function createTodo(text: string): Todo {
+  return {
+    id: Date.now(),
+    text,
+    completed: false
+  };
+}
+
+// Type annotations used directly in the browser!
+const todos: Todo[] = [];
+</code></pre>
+            
+            <p>
+                The browser ignores the TypeScript type annotations at runtime but
+                executes the JavaScript parts of the code.
+            </p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Created for learning and exploration - <a href="https://github.com/renocrypt/pure-html">View on GitHub</a></p>
+    </footer>
+</body>
+</html> 
