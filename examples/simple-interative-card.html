@@ -3,11 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Card Example</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    <title>Simple Interactive Card</title>
+        /* Container for better centering and max-width */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Card Container - Controls the 3D perspective effect */
+        .card-container {
+            perspective: 1000px; /* Create 3D perspective for flip effect */
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 0 auto;
+            cursor: pointer;
+            /* This variable is used for the flip animation duration */
+            --flip-duration: 0.6s;
+        }
+
+        /* Card - Contains both front and back faces */
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d; /* Allows children to be positioned in 3D space */
+            transition: transform var(--flip-duration) ease;
+        }
+        
+        /* Shared styles for card faces */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hides the back of the card */
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Front of card styling */
+        .card-front {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+        }
+        
+        /* Back of card styling */
+        .card-back {
+            background: white;
+            transform: rotateY(180deg); /* Start with back face flipped */
+        }
+        
+        /* Flipped class added via JavaScript */
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        
+        /* Card Content Styling */
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .card-subtitle {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .card-content {
+            flex: 1;
+        }
+
+        .card-footer {
+            font-size: 0.8rem;
+            margin-top: auto;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-back {
+            background-color: #6a11cb;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .btn-back:hover {
+            background-color: #5700b3;
+        }
+        
+        /* Adaptive layout with media queries */
+        @media (max-width: 768px) {
+            .card-container {
+                max-width: 320px;
+                height: 200px;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .card-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card-container {
+                max-width: 280px;
+                height: 180px;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            
+            .card-subtitle {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .card-face {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="card">
-        
+    <div class="container">
+        <!-- Card Container with 3D Perspective -->
+        <div class="card-container" id="card-container">
+            <!-- Card with Two Faces -->
+            <div class="card" id="card">
+                <!-- Front Face -->
+                <div class="card-face card-front">
+                    <h2 class="card-title">Interactive Card</h2>
+                    <h3 class="card-subtitle">Click to flip</h3>
+                    <div class="card-content">
+                        <p>This is a simple interactive card example that demonstrates:</p>
+                        <ul>
+                            <li>CSS 3D transformations</li>
+                            <li>Responsive design</li>
+                            <li>JavaScript interactivity</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">Click anywhere on the card to flip</div>
+                </div>
+                
+                <!-- Back Face -->
+                <div class="card-face card-back">
+                    <h2 class="card-title">Behind the Scenes</h2>
+                    <div class="card-content">
+                        <p>This card uses:</p>
+                        <ul>
+                            <li>transform-style: preserve-3d</li>
+                            <li>backface-visibility: hidden</li>
+                            <li>CSS transitions for smooth animation</li>
+                            <li>Media queries for responsive layout</li>
+                        </ul>
+                        <button class="btn btn-back" id="flip-back">Flip Back</button>
+                    </div>
+                    <div class="card-footer">Modern CSS is powerful!</div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Wait for DOM to be fully loaded before attaching event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get references to DOM elements
+            const card = document.getElementById('card');
+            const cardContainer = document.getElementById('card-container');
+            const flipBackBtn = document.getElementById('flip-back');
+            
+            /**
+             * Toggle the card flip state
+             * @param {Event} e - The click event object
+             */
+            function toggleCardFlip(e) {
+                // Toggle the is-flipped class to trigger the CSS transition
+                card.classList.toggle('is-flipped');
+                
+                // If using the back button, stop event propagation
+                // to prevent the container click from being triggered
+                if (e.target === flipBackBtn) {
+                    e.stopPropagation();
+                }
+            }
+            
+            // Attach event listeners
+            cardContainer.addEventListener('click', toggleCardFlip);
+            
+            // Add specific listener for the back button
+            // (though we could rely on event propagation, this is more explicit)
+            flipBackBtn.addEventListener('click', toggleCardFlip);
+            
+            // Add accessibility support for keyboard navigation
+            cardContainer.addEventListener('keydown', function(e) {
+                // Toggle on Enter or Space key press
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault(); // Prevent scrolling on space
+                    toggleCardFlip(e);
+                }
+            });
+            
+            // Add tabindex for keyboard focus
+            cardContainer.setAttribute('tabindex', '0');
+            
+            // Add ARIA attributes for accessibility
+            cardContainer.setAttribute('role', 'button');
+            cardContainer.setAttribute('aria-label', 'Interactive card, press Enter to flip');
+        });
+    </script>
 </body>
+</html>
