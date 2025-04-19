@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACNE STUDIOS - Contemporary Fashion</title>
+  <meta name="description" content="A contemporary fashion brand with a minimalist aesthetic">
+  
+  <!-- Fonts: Using Archivo Black for logo and Inter for navigation to match Acne Studios -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Alpine.js for reactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    // Tailwind Configuration
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          logo: ['"Archivo Black"', 'sans-serif'],
+        },
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 0 0% 10%;
+      --card: 0 0% 100%;
+      --card-foreground: 0 0% 10%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 0 0% 10%;
+      --primary: 0 0% 9%;
+      --primary-foreground: 0 0% 98%;
+      --secondary: 0 0% 96%;
+      --secondary-foreground: 0 0% 9%;
+      --muted: 0 0% 96%;
+      --muted-foreground: 0 0% 45%;
+      --accent: 0 0% 94%;
+      --accent-foreground: 0 0% 9%;
+      --destructive: 0 84% 60%;
+      --destructive-foreground: 0 0% 98%;
+      --border: 0 0% 89%;
+      --input: 0 0% 89%;
+      --ring: 0 0% 70%;
+      --radius: 0.5rem;
+    }
+
+    .dark {
+      --background: 0 0% 8%;
+      --foreground: 0 0% 98%;
+      --card: 0 0% 8%;
+      --card-foreground: 0 0% 98%;
+      --popover: 0 0% 8%;
+      --popover-foreground: 0 0% 98%;
+      --primary: 0 0% 98%;
+      --primary-foreground: 0 0% 9%;
+      --secondary: 0 0% 14.5%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 0 0% 14.5%;
+      --muted-foreground: 0 0% 63.9%;
+      --accent: 0 0% 14.5%;
+      --accent-foreground: 0 0% 98%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
+      --border: 0 0% 20%;
+      --input: 0 0% 20%;
+      --ring: 0 0% 29.5%;
+    }
+    
+    * {
+      border-color: hsl(var(--border));
+    }
+    
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-feature-settings: "rlig" 1, "calt" 1;
+      letter-spacing: -0.01em;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      letter-spacing: -0.03em;
+    }
+    
+    .tracking-wider {
+      letter-spacing: 0.05em;
+    }
+    
+    .font-light {
+      font-weight: 300;
+    }
+    
+    .bg-background {
+      background-color: hsl(var(--background));
+    }
+    
+    .bg-muted {
+      background-color: hsl(var(--muted));
+    }
+    
+    .text-foreground {
+      color: hsl(var(--foreground));
+    }
+    
+    .text-muted-foreground {
+      color: hsl(var(--muted-foreground));
+    }
+    
+    .border-border {
+      border-color: hsl(var(--border));
+    }
+    
+    .hover\:text-foreground:hover {
+      color: hsl(var(--foreground));
+    }
+    
+    .hover\:text-muted-foreground:hover {
+      color: hsl(var(--muted-foreground));
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      font-weight: 500;
+      transition-property: color, background-color, border-color;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    
+    .btn-primary {
+      background-color: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+    
+    .btn-ghost {
+      background-color: transparent;
+      color: hsl(var(--foreground));
+    }
+    
+    .btn-ghost:hover {
+      background-color: hsl(var(--accent));
+    }
+    
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    .container {
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 2rem;
+      padding-left: 2rem;
+    }
+    
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1400px;
+      }
+    }
+    
+    .aspect-\[3\/4\] {
+      aspect-ratio: 3/4;
+    }
+    
+    .aspect-\[4\/5\] {
+      aspect-ratio: 4/5;
+    }
+    
+    .transition-transform {
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    
+    .group:hover .group-hover\:translate-x-1 {
+      --tw-translate-x: 0.25rem;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+    
+    .group:hover .group-hover\:scale-105 {
+      --tw-scale-x: 1.05;
+      --tw-scale-y: 1.05;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+    
+    /* Persistent logo styles */
+    .persistent-logo {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 30;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 10vw, 8rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      color: white;
+      opacity: 0.8;
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    /* Responsive adjustments for the persistent logo */
+    @media (max-width: 768px) {
+      .persistent-logo {
+        font-size: clamp(1.5rem, 8vw, 4rem);
+      }
+    }
+    
+    /* Mega menu styles */
+    .mega-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: hsl(var(--background));
+      z-index: 50;
+      overflow-y: auto;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .mega-menu.open {
+      transform: translateY(0);
+    }
+    
+    .mega-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+    
+    .mega-menu-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .mega-menu-content {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .mega-menu-column h3 {
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .mega-menu-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .mega-menu-column ul li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .mega-menu-column ul li a {
+      color: hsl(var(--foreground));
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .mega-menu-column ul li a:hover {
+      color: hsl(var(--muted-foreground));
+    }
+    
+    .mega-menu-tabs {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .mega-menu-tab {
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+    
+    .mega-menu-tab.active {
+      font-weight: 500;
+    }
+    
+    .mega-menu-close {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+    
+    body.menu-open {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body x-data="{ 
+                 darkMode: localStorage.getItem('darkMode') === 'true', 
+                 activeMenu: null,
+                 toggleDarkMode() { 
+                   this.darkMode = !this.darkMode; 
+                   localStorage.setItem('darkMode', this.darkMode); 
+                 },
+                 openMenu(menu) {
+                   this.activeMenu = menu;
+                   document.body.classList.add('menu-open');
+                 },
+                 closeMenu() {
+                   this.activeMenu = null;
+                   document.body.classList.remove('menu-open');
+                 },
+                 email: '',
+                 submitted: false,
+                 submitForm(e) {
+                   e.preventDefault();
+                   console.log('Subscribing email:', this.email);
+                   this.submitted = true;
+                   this.email = '';
+                 }
+               }"
+      x-init="$watch('darkMode', val => { 
+                if (val) { document.documentElement.classList.add('dark') } 
+                else { document.documentElement.classList.remove('dark') }
+              });
+              
+              if (localStorage.getItem('darkMode') === null) {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  darkMode = true;
+                  localStorage.setItem('darkMode', 'true');
+                }
+              }"
+      class="min-h-screen flex flex-col">
+  
+  <!-- Persistent Acne Studios Logo -->
+  <div class="persistent-logo">4CN3 STUDIOS</div>
+  
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div class="container flex h-16 items-center justify-between">
+      <a href="/" class="font-logo tracking-wider text-xl relative z-50">
+        ACNE
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm tracking-wide">
+        <button @click="openMenu('women')" class="hover:text-muted-foreground transition-colors uppercase">
+          Women
+        </button>
+        <button @click="openMenu('men')" class="hover:text-muted-foreground transition-colors uppercase">
+          Men
+        </button>
+        <button @click="openMenu('denim')" class="hover:text-muted-foreground transition-colors uppercase">
+          Denim
+        </button>
+        <button @click="openMenu('studios')" class="hover:text-muted-foreground transition-colors uppercase">
+          Studios
+        </button>
+      </nav>
+      <div class="flex items-center gap-4">
+        <!-- Theme Toggle -->
+        <button 
+          @click="toggleDarkMode()" 
+          class="btn btn-ghost p-2 rounded-md relative z-50"
+          aria-label="Toggle theme">
+          <span x-show="!darkMode" class="flex items-center justify-center h-5 w-5">
+            <i data-lucide="moon"></i>
+          </span>
+          <span x-show="darkMode" class="flex items-center justify-center h-5 w-5">
+            <i data-lucide="sun"></i>
+          </span>
+        </button>
+        
+        <!-- Shopping Bag -->
+        <button class="btn btn-ghost p-2 rounded-md relative z-50">
+          <span class="flex items-center justify-center h-5 w-5">
+            <i data-lucide="shopping-bag"></i>
+          </span>
+          <span class="sr-only">Shopping bag</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Women Mega Menu -->
+  <div class="mega-menu" :class="{ 'open': activeMenu === 'women' }">
+    <div class="mega-menu-header">
+      <div class="mega-menu-tabs">
+        <div class="mega-menu-tab active">WOMEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'men'">MEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'denim'">DENIM</div>
+      </div>
+      <div class="mega-menu-close" @click="closeMenu()">
+        X CLOSE
+      </div>
+    </div>
+    <div class="mega-menu-content">
+      <div class="mega-menu-column">
+        <h3>NEW</h3>
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Acne Studios x Kappa</a></li>
+          <li><a href="#">Seasonal Denim</a></li>
+          <li><a href="#">1996 Logo garments</a></li>
+          <li><a href="#">Gifts For Her</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>CLOTHING</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Jeans</a></li>
+          <li><a href="#">Outerwear</a></li>
+          <li><a href="#">Sweatshirts</a></li>
+          <li><a href="#">Dresses</a></li>
+          <li><a href="#">Knitwear</a></li>
+          <li><a href="#">T-shirts</a></li>
+          <li><a href="#">Shirts</a></li>
+          <li><a href="#">Skirts</a></li>
+          <li><a href="#">Shorts</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>SHOES & ACCESSORIES</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Scarves</a></li>
+          <li><a href="#">Bags</a></li>
+          <li><a href="#">Hats</a></li>
+          <li><a href="#">Shoes</a></li>
+          <li><a href="#">Small Leather Goods</a></li>
+          <li><a href="#">Jewellery</a></li>
+          <li><a href="#">Eyewear</a></li>
+          <li><a href="#">Belts</a></li>
+          <li><a href="#">Socks</a></li>
+          <li><a href="#">Objects</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>RUNWAY</h3>
+        <ul>
+          <li><a href="#">FW25</a></li>
+          <li><a href="#">SS25</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Men Mega Menu -->
+  <div class="mega-menu" :class="{ 'open': activeMenu === 'men' }">
+    <div class="mega-menu-header">
+      <div class="mega-menu-tabs">
+        <div class="mega-menu-tab" @click="activeMenu = 'women'">WOMEN</div>
+        <div class="mega-menu-tab active">MEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'denim'">DENIM</div>
+      </div>
+      <div class="mega-menu-close" @click="closeMenu()">
+        X CLOSE
+      </div>
+    </div>
+    <div class="mega-menu-content">
+      <div class="mega-menu-column">
+        <h3>NEW</h3>
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Acne Studios x Kappa</a></li>
+          <li><a href="#">Seasonal Denim</a></li>
+          <li><a href="#">1996 Logo garments</a></li>
+          <li><a href="#">Gifts For Him</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>CLOTHING</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Jeans</a></li>
+          <li><a href="#">Outerwear</a></li>
+          <li><a href="#">Sweatshirts</a></li>
+          <li><a href="#">Trousers</a></li>
+          <li><a href="#">Knitwear</a></li>
+          <li><a href="#">T-shirts</a></li>
+          <li><a href="#">Shirts</a></li>
+          <li><a href="#">Suit Jackets</a></li>
+          <li><a href="#">Shorts</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>SHOES & ACCESSORIES</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Scarves</a></li>
+          <li><a href="#">Bags</a></li>
+          <li><a href="#">Hats</a></li>
+          <li><a href="#">Shoes</a></li>
+          <li><a href="#">Small Leather Goods</a></li>
+          <li><a href="#">Jewellery</a></li>
+          <li><a href="#">Eyewear</a></li>
+          <li><a href="#">Belts</a></li>
+          <li><a href="#">Socks</a></li>
+          <li><a href="#">Objects</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>RUNWAY</h3>
+        <ul>
+          <li><a href="#">FW25</a></li>
+          <li><a href="#">SS25</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Denim Mega Menu -->
+  <div class="mega-menu" :class="{ 'open': activeMenu === 'denim' }">
+    <div class="mega-menu-header">
+      <div class="mega-menu-tabs">
+        <div class="mega-menu-tab" @click="activeMenu = 'women'">WOMEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'men'">MEN</div>
+        <div class="mega-menu-tab active">DENIM</div>
+      </div>
+      <div class="mega-menu-close" @click="closeMenu()">
+        X CLOSE
+      </div>
+    </div>
+    <div class="mega-menu-content">
+      <div class="mega-menu-column">
+        <h3>WOMEN'S DENIM</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Slim fit</a></li>
+          <li><a href="#">Straight fit</a></li>
+          <li><a href="#">Bootcut</a></li>
+          <li><a href="#">Baggy fit</a></li>
+          <li><a href="#">Shorts</a></li>
+          <li><a href="#">Skirts</a></li>
+          <li><a href="#">Jackets</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>MEN'S DENIM</h3>
+        <ul>
+          <li><a href="#">View all</a></li>
+          <li><a href="#">Slim fit</a></li>
+          <li><a href="#">Straight fit</a></li>
+          <li><a href="#">Relaxed fit</a></li>
+          <li><a href="#">Baggy fit</a></li>
+          <li><a href="#">Shorts</a></li>
+          <li><a href="#">Jackets</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>COLLECTIONS</h3>
+        <ul>
+          <li><a href="#">Seasonal Denim</a></li>
+          <li><a href="#">1996</a></li>
+          <li><a href="#">Blå Konst</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>FEATURED</h3>
+        <ul>
+          <li><a href="#">Denim Guide</a></li>
+          <li><a href="#">Sustainability</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Studios Mega Menu -->
+  <div class="mega-menu" :class="{ 'open': activeMenu === 'studios' }">
+    <div class="mega-menu-header">
+      <div class="mega-menu-tabs">
+        <div class="mega-menu-tab" @click="activeMenu = 'women'">WOMEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'men'">MEN</div>
+        <div class="mega-menu-tab" @click="activeMenu = 'denim'">DENIM</div>
+      </div>
+      <div class="mega-menu-close" @click="closeMenu()">
+        X CLOSE
+      </div>
+    </div>
+    <div class="mega-menu-content">
+      <div class="mega-menu-column">
+        <h3>ABOUT</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>STORES</h3>
+        <ul>
+          <li><a href="#">Store Locator</a></li>
+          <li><a href="#">Stockholm</a></li>
+          <li><a href="#">New York</a></li>
+          <li><a href="#">London</a></li>
+          <li><a href="#">Paris</a></li>
+          <li><a href="#">Tokyo</a></li>
+          <li><a href="#">Seoul</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>JOURNAL</h3>
+        <ul>
+          <li><a href="#">Latest Stories</a></li>
+          <li><a href="#">Collections</a></li>
+          <li><a href="#">Collaborations</a></li>
+          <li><a href="#">Interviews</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu-column">
+        <h3>CUSTOMER SERVICE</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="relative h-[80vh] w-full overflow-hidden">
+      <img 
+        src="https://picsum.photos/id/1011/2000/1200" 
+        alt="Fashion model in minimal setting" 
+        class="absolute inset-0 w-full h-full object-cover"
+      >
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="container relative z-10 flex h-full flex-col justify-end pb-20">
+        <div class="max-w-xl space-y-5">
+          <h1 class="text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl">
+            SPRING SUMMER 2025
+          </h1>
+          <p class="text-lg text-white/90">
+            A collection that explores the boundaries between structure and fluidity.
+          </p>
+          <button class="btn btn-primary group mt-4 rounded-none px-6 py-6 text-sm tracking-wider">
+            EXPLORE COLLECTION
+            <span class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1">
+              <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Featured Collection -->
+    <section class="py-24">
+      <div class="container">
+        <h2 class="mb-12 text-3xl font-light tracking-tight">FEATURED COLLECTION</h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Product 1 -->
+          <a href="#" class="group block overflow-hidden sm:col-span-2 sm:row-span-2 lg:col-span-2 lg:row-span-1">
+            <div class="relative aspect-[3/4] overflow-hidden bg-muted">
+              <img 
+                src="https://picsum.photos/id/1059/800/1000" 
+                alt="Oversized Wool Coat" 
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              >
+            </div>
+            <div class="mt-4 flex justify-between">
+              <div>
+                <h3 class="text-sm font-medium">Oversized Wool Coat</h3>
+                <p class="mt-1 text-sm text-muted-foreground">$890</p>
+              </div>
+            </div>
+          </a>
+          
+          <!-- Product 2 -->
+          <a href="#" class="group block overflow-hidden">
+            <div class="relative aspect-[3/4] overflow-hidden bg-muted">
+              <img 
+                src="https://picsum.photos/id/1062/800/1000" 
+                alt="Tailored Linen Blazer" 
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              >
+            </div>
+            <div class="mt-4 flex justify-between">
+              <div>
+                <h3 class="text-sm font-medium">Tailored Linen Blazer</h3>
+                <p class="mt-1 text-sm text-muted-foreground">$650</p>
+              </div>
+            </div>
+          </a>
+          
+          <!-- Product 3 -->
+          <a href="#" class="group block overflow-hidden">
+            <div class="relative aspect-[3/4] overflow-hidden bg-muted">
+              <img 
+                src="https://picsum.photos/id/1078/800/1000" 
+                alt="Structured Canvas Tote" 
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              >
+            </div>
+            <div class="mt-4 flex justify-between">
+              <div>
+                <h3 class="text-sm font-medium">Structured Canvas Tote</h3>
+                <p class="mt-1 text-sm text-muted-foreground">$390</p>
+              </div>
+            </div>
+          </a>
+          
+          <!-- Product 4 -->
+          <a href="#" class="group block overflow-hidden">
+            <div class="relative aspect-[3/4] overflow-hidden bg-muted">
+              <img 
+                src="https://picsum.photos/id/1071/800/1000" 
+                alt="Slim Fit Denim" 
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              >
+            </div>
+            <div class="mt-4 flex justify-between">
+              <div>
+                <h3 class="text-sm font-medium">Slim Fit Denim</h3>
+                <p class="mt-1 text-sm text-muted-foreground">$290</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Journal Section -->
+    <section class="py-24 bg-muted">
+      <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-light tracking-tight">ACNE STUDIOS JOURNAL</h2>
+            <p class="text-muted-foreground">
+              Explore the creative process behind our collections, collaborations, and cultural initiatives.
+            </p>
+            <button class="btn btn-outline rounded-none px-6 py-6 text-sm tracking-wider">
+              READ MORE
+            </button>
+          </div>
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img 
+              src="https://picsum.photos/id/1005/800/1000" 
+              alt="Fashion editorial" 
+              class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Newsletter -->
+    <section class="py-24">
+      <div class="container">
+        <div class="mx-auto max-w-xl space-y-8 text-center">
+          <h2 class="text-3xl font-light tracking-tight">JOIN OUR NEWSLETTER</h2>
+          <p class="text-muted-foreground">
+            Subscribe to receive updates on new collections, special offers, and studio insights.
+          </p>
+          
+          <template x-if="submitted">
+            <div class="rounded-md bg-muted p-6">
+              <p class="font-medium">Thank you for subscribing!</p>
+              <p class="mt-2 text-sm text-muted-foreground">You'll receive our next newsletter in your inbox.</p>
+            </div>
+          </template>
+          
+          <template x-if="!submitted">
+            <form @submit="submitForm" class="flex flex-col gap-4 sm:flex-row">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="w-full rounded-none border-border bg-background px-3 py-6 text-foreground"
+                x-model="email"
+                required
+              />
+              <button type="submit" class="btn btn-primary rounded-none px-6 py-6 flex items-center">
+                SUBSCRIBE
+                <span class="ml-2 h-4 w-4">
+                  <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                </span>
+              </button>
+            </form>
+          </template>
+          
+          <p class="text-xs text-muted-foreground">
+            By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="border-t py-12">
+    <div class="container grid grid-cols-1 gap-8 md:grid-cols-4">
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium tracking-wider">CUSTOMER CARE</h3>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="#" class="hover:text-foreground transition-colors">Contact</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Shipping</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Returns</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Payment</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium tracking-wider">ABOUT</h3>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="#" class="hover:text-foreground transition-colors">Our Story</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Sustainability</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Press</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium tracking-wider">LEGAL</h3>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="#" class="hover:text-foreground transition-colors">Terms & Conditions</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Cookie Policy</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Accessibility</a></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium tracking-wider">FOLLOW US</h3>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="#" class="hover:text-foreground transition-colors">Instagram</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Facebook</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">Twitter</a></li>
+          <li><a href="#" class="hover:text-foreground transition-colors">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container mt-12 text-center text-sm text-muted-foreground">
+      <p>© <script>document.write(new Date().getFullYear())</script> ACNE. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
